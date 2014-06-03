@@ -1,0 +1,11 @@
+# git ignore file
+bin/
+obj/
+Tests/*/bin/
+Tests/*/obj/
+TestResults/
+packages/
+Documentation/Help/
+*.shfbproj_*
+
+*.suo
