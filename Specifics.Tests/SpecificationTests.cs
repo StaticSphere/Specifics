@@ -107,5 +107,44 @@ namespace StaticSphere.Specifics.Tests
 
             Assert.IsFalse(spec.IsSatisfiedBy(person));
         }
+
+        [Test]
+        public void CanSpecificationBeANDedByOperator()
+        {
+            var person = new Person { FirstName = "Bob" };
+            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)) &
+                new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName));
+
+            Assert.IsFalse(spec.IsSatisfiedBy(person));
+
+            person.LastName = "Smith";
+            Assert.IsTrue(spec.IsSatisfiedBy(person));
+        }
+
+        [Test]
+        public void CanSpecificationBeORedByOperator()
+        {
+            var person = new Person();
+            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)) |
+                new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName));
+
+            Assert.IsFalse(spec.IsSatisfiedBy(person));
+
+            person.LastName = "Smith";
+            Assert.IsTrue(spec.IsSatisfiedBy(person));
+
+            person.FirstName = "Bob";
+            person.LastName = null;
+            Assert.IsTrue(spec.IsSatisfiedBy(person));
+        }
+
+        [Test]
+        public void CanSpecificationBeNOTedByOperator()
+        {
+            var person = new Person { FirstName = "Bob" };
+            var spec = !(new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)));
+
+            Assert.IsFalse(spec.IsSatisfiedBy(person));
+        }
     }
 }
