@@ -68,5 +68,44 @@ namespace StaticSphere.Specifics.Tests
 
             Assert.IsFalse(spec.IsSatisfiedBy(person));
         }
+
+        [Test]
+        public void CanSpecificationsBeANDedTogether()
+        {
+            var person = new Person { FirstName = "Bob" };
+            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)).And(
+                new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName)));
+
+            Assert.IsFalse(spec.IsSatisfiedBy(person));
+
+            person.LastName = "Smith";
+            Assert.IsTrue(spec.IsSatisfiedBy(person));
+        }
+
+        [Test]
+        public void CanSpecificationsBeORedTogether()
+        {
+            var person = new Person();
+            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)).Or(
+                new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName)));
+
+            Assert.IsFalse(spec.IsSatisfiedBy(person));
+
+            person.LastName = "Smith";
+            Assert.IsTrue(spec.IsSatisfiedBy(person));
+
+            person.FirstName = "Bob";
+            person.LastName = null;
+            Assert.IsTrue(spec.IsSatisfiedBy(person));
+        }
+
+        [Test]
+        public void CanSpecificationBeNOTed()
+        {
+            var person = new Person { FirstName = "Bob" };
+            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)).Not();
+
+            Assert.IsFalse(spec.IsSatisfiedBy(person));
+        }
     }
 }
