@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using StaticSphere.Specifics.Contracts;
 #endregion
 
 namespace StaticSphere.Specifics
@@ -11,7 +10,7 @@ namespace StaticSphere.Specifics
     /// Defines a business entity specification.
     /// </summary>
     /// <typeparam name="TEntity">The type of entity that the specification is being applied to.</typeparam>
-    public class Specification<TEntity> : ISpecification<TEntity>
+    public class Specification<TEntity>
         where TEntity : class
     {
         #region Private Member Variables
@@ -110,6 +109,7 @@ namespace StaticSphere.Specifics
         /// Concatenates two specifications, returning a new specification that
         /// will be satisfied when both source specifications are satisfied.
         /// </summary>
+        /// <param name="leftSpec">The specification to concatenate to.</param>
         /// <param name="rightSpec">The specification to concatenate with.</param>
         /// <returns>
         /// A new specification that is only satisfied when the source
@@ -126,6 +126,7 @@ namespace StaticSphere.Specifics
         /// Concatenates two specifications, returning a new specification that
         /// will be satisfied when either of the source specifications are satisfied.
         /// </summary>
+        /// <param name="leftSpec">The specification to concatenate to.</param>
         /// <param name="rightSpec">The specification to concatenate with.</param>
         /// <returns>
         /// A new specification that is only satisfied when either of the source
