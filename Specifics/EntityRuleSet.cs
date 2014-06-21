@@ -15,7 +15,7 @@ namespace StaticSphere.Specifics
         where TEntity : class
     {
         #region Internal Properties
-        internal List<ValidationRule<TEntity>> ValidationRules { get; private set; }
+        internal Dictionary<string, ValidationRule<TEntity>> ValidationRules { get; private set; }
         #endregion
 
         #region Construction
@@ -24,7 +24,7 @@ namespace StaticSphere.Specifics
         /// </summary>
         public EntityRuleSet()
         {
-            ValidationRules = new List<ValidationRule<TEntity>>();
+            ValidationRules = new Dictionary<string, ValidationRule<TEntity>>();
         }
         #endregion
 
@@ -39,7 +39,7 @@ namespace StaticSphere.Specifics
             if (rule == null)
                 throw new ArgumentNullException("rule");
 
-            ValidationRules.Add(rule);
+            ValidationRules.Add(rule.Name, rule);
             return ValidationRules.Count;
         }
 
@@ -53,8 +53,10 @@ namespace StaticSphere.Specifics
         {
             if (expression == null)
                 throw new ArgumentNullException("expression");
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
 
-            ValidationRules.Add(new ValidationRule<TEntity>(expression, name));
+            ValidationRules.Add(name, new ValidationRule<TEntity>(expression, name));
             return ValidationRules.Count;
         }
 
@@ -69,8 +71,12 @@ namespace StaticSphere.Specifics
         {
             if (expression == null)
                 throw new ArgumentNullException("expression");
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+            if (String.IsNullOrEmpty(errorMessage))
+                throw new ArgumentNullException("errorMessage");
 
-            ValidationRules.Add(new ValidationRule<TEntity>(expression, name, errorMessage));
+            ValidationRules.Add(name, new ValidationRule<TEntity>(expression, name, errorMessage));
             return ValidationRules.Count;
         }
 
@@ -86,29 +92,28 @@ namespace StaticSphere.Specifics
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
-            ValidationRules.Add(new ValidationRule<TEntity>(expression, name, errorMessageLambda));
+            ValidationRules.Add(name, new ValidationRule<TEntity>(expression, name, errorMessageLambda));
             return ValidationRules.Count;
         }
 
-        ///// <summary>
-        ///// Validates the specified entity.
-        ///// </summary>
-        ///// <param name="entity">The entity to validate.</param>
-        ///// <returns>A <see cref="ValidationResult"/> instance that describes how well the provided entity satisfies the specification.</returns>
-        //public ValidationResult Validate(TEntity entity)
-        //{
-        //    var result = new ValidationResult();
+        /// <summary>
+        /// Validates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity to validate.</param>
+        /// <returns>A <see cref="ValidationResult"/> instance that describes how well the provided entity satisfies the specification.</returns>
+        public ValidationResult Validate(TEntity entity)
+        {
+            var result = new ValidationResult();
 
-        //    foreach(var rule in ValidationRules)
-        //    {
-        //        if (!rule.Validate(entity))
-        //        {
-        //            result.AddError(rule.ErrorMessage);
-        //        }
-        //    }
+            foreach(var ruleName in ValidationRules.Keys)
+            {
+                var rule = ValidationRules[ruleName];
+                if (!rule.Validate(entity))
+                    result.AddError(new ValidationError(rule.Name, rule.ErrorMessage));
+            }
 
-        //    return result;
-        //}
+            return result;
+        }
         #endregion
     }
 }
