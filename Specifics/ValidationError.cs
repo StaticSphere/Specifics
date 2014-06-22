@@ -1,5 +1,6 @@
 ﻿#region Using Directives
 using System;
+using System.Runtime.Serialization;
 #endregion
 
 namespace StaticSphere.Specifics
@@ -7,17 +8,20 @@ namespace StaticSphere.Specifics
     /// <summary>
     /// Provides details on a validation error.
     /// </summary>
+    [DataContract]
     public class ValidationError
     {
         #region Properties
         /// <summary>
         /// The name of the validation error.
         /// </summary>
+        [DataMember]
         public string Name { get; private set; }
 
         /// <summary>
         /// The message that describes the validation error.
         /// </summary>
+        [DataMember]
         public string Message { get; private set; }
         #endregion
 

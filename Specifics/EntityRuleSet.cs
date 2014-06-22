@@ -109,7 +109,18 @@ namespace StaticSphere.Specifics
             {
                 var rule = ValidationRules[ruleName];
                 if (!rule.Validate(entity))
-                    result.AddError(new ValidationError(rule.Name, rule.ErrorMessage));
+                {
+                    var validationError = new ValidationError(rule.Name, rule.ErrorMessage);
+                    result.AddError(validationError);
+                    if (entity is IValidatedEntity)
+                    {
+                        var valEntity = entity as IValidatedEntity;
+                        if (valEntity.ValidationErrors == null)
+                            throw new InvalidOperationException("When implementing IValidatedEntity, the ValidationErrors collection must be initialized.");
+
+                        valEntity.ValidationErrors.Add(validationError);
+                    }
+                }
             }
 
             return result;

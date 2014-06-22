@@ -8,6 +8,7 @@ namespace StaticSphere.Specifics.Tests
     [TestFixture]
     public class EntityRuleSetTests
     {
+        #region Helper Classes
         private class PersonRuleSet : EntityRuleSet<Person>
         {
             public PersonRuleSet()
@@ -15,6 +16,15 @@ namespace StaticSphere.Specifics.Tests
                 AddRule(p => !String.IsNullOrEmpty(p.FirstName), "FirstNameRequired");
             }
         }
+
+        private class PersonRuleSet2 : EntityRuleSet<PersonNoInitializeValidationErrors>
+        {
+            public PersonRuleSet2()
+            {
+                AddRule(p => !String.IsNullOrEmpty(p.FirstName), "FirstNameRequired");
+            }
+        }
+        #endregion
 
         [Test]
         public void CanAddANewValidationRule()
@@ -201,12 +211,47 @@ namespace StaticSphere.Specifics.Tests
         public void InvalidEntityValidatesAsInvalid()
         {
             var ruleSet = new PersonRuleSet();
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "Last name is required.");
+            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
             var person = new Person { FirstName = "Bob" };
 
             var result = ruleSet.Validate(person);
 
             Assert.IsFalse(result.Valid);
+        }
+
+        [Test]
+        public void ValidatedEntityCanGetErrorsReported()
+        {
+            var ruleSet = new PersonRuleSet();
+            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
+            var person = new Person { FirstName = "Bob" };
+
+            ruleSet.Validate(person);
+
+            Assert.IsNotNull(person.ValidationErrors);
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void DoesValidateThrowIfValidationErrorsNotInitialized()
+        {
+            var ruleSet = new PersonRuleSet2();
+            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
+            var person = new PersonNoInitializeValidationErrors { FirstName = "Bob" };
+
+            ruleSet.Validate(person);
+        }
+
+        [Test]
+        public void ValidatedEntityReportsErrors()
+        {
+            var ruleSet = new PersonRuleSet();
+            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
+            var person = new Person { FirstName = "Bob" };
+
+            ruleSet.Validate(person);
+
+            Assert.AreEqual(1, person.ValidationErrors.Count);
         }
     }
 }
