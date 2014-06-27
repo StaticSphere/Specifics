@@ -191,7 +191,7 @@ namespace StaticSphere.Specifics.Tests
             var ruleSet = new PersonRuleSet();
             var person = new Person { FirstName = "Bob" };
 
-            var result = ruleSet.ValidateSpecifications(person);
+            var result = ruleSet.Validate(person);
 
             Assert.IsNotNull(result);
         }
@@ -202,7 +202,7 @@ namespace StaticSphere.Specifics.Tests
             var ruleSet = new PersonRuleSet();
             var person = new Person { FirstName = "Bob" };
 
-            var result = ruleSet.ValidateSpecifications(person);
+            var result = ruleSet.Validate(person);
 
             Assert.IsTrue(result.Valid);
         }
@@ -214,7 +214,7 @@ namespace StaticSphere.Specifics.Tests
             ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
             var person = new Person { FirstName = "Bob" };
 
-            var result = ruleSet.ValidateSpecifications(person);
+            var result = ruleSet.Validate(person);
 
             Assert.IsFalse(result.Valid);
         }
@@ -226,7 +226,7 @@ namespace StaticSphere.Specifics.Tests
             ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
             var person = new Person { FirstName = "Bob" };
 
-            ruleSet.ValidateSpecifications(person);
+            ruleSet.Validate(person);
 
             Assert.IsNotNull(person.ValidationErrors);
         }
@@ -239,7 +239,7 @@ namespace StaticSphere.Specifics.Tests
             ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
             var person = new PersonNoInitializeValidationErrors { FirstName = "Bob" };
 
-            ruleSet.ValidateSpecifications(person);
+            ruleSet.Validate(person);
         }
 
         [Test]
@@ -249,7 +249,7 @@ namespace StaticSphere.Specifics.Tests
             ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
             var person = new Person { FirstName = "Bob" };
 
-            ruleSet.ValidateSpecifications(person);
+            ruleSet.Validate(person);
 
             Assert.AreEqual(1, person.ValidationErrors.Count);
         }
@@ -261,7 +261,7 @@ namespace StaticSphere.Specifics.Tests
             ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
             var person = new Person { FirstName = "Bob" };
 
-            var result = ruleSet.ValidateSpecifications(person);
+            var result = ruleSet.Validate(person);
 
             Assert.AreEqual(person, result.Entity);
         }
