@@ -253,5 +253,17 @@ namespace StaticSphere.Specifics.Tests
 
             Assert.AreEqual(1, person.ValidationErrors.Count);
         }
+
+        [Test]
+        public void ValidationResultContainsPointerToEntityThatFailedValidation()
+        {
+            var ruleSet = new PersonRuleSet();
+            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
+            var person = new Person { FirstName = "Bob" };
+
+            var result = ruleSet.Validate(person);
+
+            Assert.AreEqual(person, result.Entity);
+        }
     }
 }

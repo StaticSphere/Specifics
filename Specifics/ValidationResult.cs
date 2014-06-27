@@ -8,9 +8,12 @@ namespace StaticSphere.Specifics
     /// <summary>
     /// Provides information about how well an entity satisfies a specification.
     /// </summary>
-    public class ValidationResult
+    /// <typeparam name="TEntity">The type of the entity that this <see cref="ValidationResult{TEntity}"/> represents.</typeparam>
+    public class ValidationResult<TEntity>
+        where TEntity : class
     {
         #region Private Member Variables
+        private TEntity _entity;
         private List<ValidationError> _errors;
         #endregion
 
@@ -31,14 +34,21 @@ namespace StaticSphere.Specifics
                     yield return error;
             }
         }
+
+        /// <summary>
+        /// The entity that this <see cref="ValidationResult{TEntity}"/> represents.
+        /// </summary>
+        public TEntity Entity { get { return _entity; } }
         #endregion
 
         #region Construction
         /// <summary>
-        /// Initializes a new instance of the <see cref="ValidationResult"/> class.
+        /// Initializes a new instance of the <see cref="ValidationResult{TEntity}"/> class.
         /// </summary>
-        public ValidationResult()
+        /// <param name="entity">The entity that this <see cref="ValidationResult{TEntity}"/> represents.</param>
+        public ValidationResult(TEntity entity)
         {
+            _entity = entity;
             _errors = new List<ValidationError>();
         }
         #endregion
