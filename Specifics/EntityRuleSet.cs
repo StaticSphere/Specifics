@@ -97,11 +97,11 @@ namespace StaticSphere.Specifics
         }
 
         /// <summary>
-        /// Validates the specified entity.
+        /// Validates the specified entity based on specifications.
         /// </summary>
         /// <param name="entity">The entity to validate.</param>
         /// <returns>A <see cref="ValidationResult{TEntity}"/> instance that describes how well the provided entity satisfies the specification.</returns>
-        public ValidationResult<TEntity> Validate(TEntity entity)
+        public ValidationResult<TEntity> ValidateSpecifications(TEntity entity)
         {
             var result = new ValidationResult<TEntity>(entity);
 
