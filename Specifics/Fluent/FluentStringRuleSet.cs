@@ -16,6 +16,17 @@ namespace StaticSphere.Specifics.Fluent
         where TEntity : class
     {
         #region Construction
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FluentStringRuleSet{TEntity}"/> class.
+        /// </summary>
+        /// <param name="entityRules">The <see cref="EntityRuleSet{TEntity}"/> instance that validation rules will be added to.</param>
+        /// <param name="property">An expression that represents the property that this fluent chain applies to.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// entityRules
+        /// or
+        /// property
+        /// </exception>
+        /// <exception cref="System.ArgumentException">Raised if the property parameter does not represent a property.</exception>
         public FluentStringRuleSet(EntityRuleSet<TEntity> entityRules, Expression<Func<TEntity, string>> property)
         {
             if (entityRules == null)
@@ -99,7 +110,7 @@ namespace StaticSphere.Specifics.Fluent
         }
 
         /// <summary>
-        /// Adds a rule that specifies that the string property must be at least a specified length.
+        /// Adds a rule that specifies that the string property must be at most a specified length.
         /// </summary>
         /// <param name="maximumLength">The maximum length that the string property can be.</param>
         /// <param name="messageLambda">A lambda or function that will determine the error message to use should this validation rule fail.</param>
@@ -113,7 +124,7 @@ namespace StaticSphere.Specifics.Fluent
         }
 
         /// <summary>
-        /// Adds a rule that specifies that the string property must be at least a specified length.
+        /// Adds a rule that specifies that the string property must be at most a specified length.
         /// </summary>
         /// <param name="maximumLength">The maximum length that the string property can be.</param>
         /// <param name="message">The error message to use should this validation rule fail.</param>
@@ -124,7 +135,7 @@ namespace StaticSphere.Specifics.Fluent
         }
 
         /// <summary>
-        /// Adds a rule that specifies that the string property must be at least a specified length.
+        /// Adds a rule that specifies that the string property must be at most a specified length.
         /// </summary>
         /// <param name="maximumLength">The maximum length that the string property can be.</param>
         /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>

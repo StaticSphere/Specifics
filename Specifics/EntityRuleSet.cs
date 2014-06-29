@@ -133,7 +133,7 @@ namespace StaticSphere.Specifics
         /// Provides the ability to add validation rules against string properties with a fluent API.
         /// </summary>
         /// <param name="property">An expression that describes property being validated.</param>
-        /// <returns>A <see cref="FluentStringRulesSet{TEntity}"/> object that will add validation rules based on the fluent API methods called.</returns>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that will add validation rules based on the fluent API methods called.</returns>
         protected FluentStringRuleSet<TEntity> Property(Expression<Func<TEntity, string>> property)
         {
             return new FluentStringRuleSet<TEntity>(this, property);

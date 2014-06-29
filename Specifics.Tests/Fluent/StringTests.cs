@@ -165,7 +165,7 @@ namespace StaticSphere.Specifics.Tests.Fluent
 
             var result = rules.Validate(person);
 
-            Assert.IsTrue(result.Errors.Any(e => e.Name == "DriversLicenseNumber_MatchesPattern"));
+            Assert.IsTrue(result.Errors.Any(e => e.Name == "DriversLicenseNumber_MatchesPattern" && e.Message == @"The 'DriversLicenseNumber' property must match the pattern '^\w{7}$'."));
         }
     }
 }
