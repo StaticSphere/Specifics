@@ -79,6 +79,60 @@ namespace StaticSphere.Specifics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; property must match the pattern &apos;{1}&apos;..
+        /// </summary>
+        internal static string FluentMatchesPatternDefaultMessage {
+            get {
+                return ResourceManager.GetString("FluentMatchesPatternDefaultMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}_MatchesPattern.
+        /// </summary>
+        internal static string FluentMatchesPatternName {
+            get {
+                return ResourceManager.GetString("FluentMatchesPatternName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; property must be no more than {1} characters long..
+        /// </summary>
+        internal static string FluentMaximumLengthDefaultMessage {
+            get {
+                return ResourceManager.GetString("FluentMaximumLengthDefaultMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}_MaximumLength.
+        /// </summary>
+        internal static string FluentMaximumLengthName {
+            get {
+                return ResourceManager.GetString("FluentMaximumLengthName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; property must be at least {1} characters long..
+        /// </summary>
+        internal static string FluentMinimumLengthDefaultMessage {
+            get {
+                return ResourceManager.GetString("FluentMinimumLengthDefaultMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}_MinimumLength.
+        /// </summary>
+        internal static string FluentMinimumLengthName {
+            get {
+                return ResourceManager.GetString("FluentMinimumLengthName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value provided to the &quot;property&quot; parameter is not a property..
         /// </summary>
         internal static string InvalidPropertyError {

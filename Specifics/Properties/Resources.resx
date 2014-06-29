@@ -123,6 +123,24 @@
   <data name="FluentIsRequiredName" xml:space="preserve">
     <value>{0}_IsRequired</value>
   </data>
+  <data name="FluentMatchesPatternDefaultMessage" xml:space="preserve">
+    <value>The '{0}' property must match the pattern '{1}'.</value>
+  </data>
+  <data name="FluentMatchesPatternName" xml:space="preserve">
+    <value>{0}_MatchesPattern</value>
+  </data>
+  <data name="FluentMaximumLengthDefaultMessage" xml:space="preserve">
+    <value>The '{0}' property must be no more than {1} characters long.</value>
+  </data>
+  <data name="FluentMaximumLengthName" xml:space="preserve">
+    <value>{0}_MaximumLength</value>
+  </data>
+  <data name="FluentMinimumLengthDefaultMessage" xml:space="preserve">
+    <value>The '{0}' property must be at least {1} characters long.</value>
+  </data>
+  <data name="FluentMinimumLengthName" xml:space="preserve">
+    <value>{0}_MinimumLength</value>
+  </data>
   <data name="InvalidPropertyError" xml:space="preserve">
     <value>The value provided to the "property" parameter is not a property.</value>
   </data>

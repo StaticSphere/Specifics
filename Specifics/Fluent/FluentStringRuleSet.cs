@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using StaticSphere.Specifics.Properties;
 #endregion
 
@@ -60,6 +61,111 @@ namespace StaticSphere.Specifics.Fluent
         public FluentStringRuleSet<TEntity> Required()
         {
             return Required(String.Format(Resources.FluentIsRequiredDefaultMessage, Property.Name));
+        }
+
+        /// <summary>
+        /// Adds a rule that specifies that the string property must be at least a specified length.
+        /// </summary>
+        /// <param name="minimumLength">The minimum length that the string property can be.</param>
+        /// <param name="messageLambda">A lambda or function that will determine the error message to use should this validation rule fail.</param>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>
+        public FluentStringRuleSet<TEntity> MinimumLength(int minimumLength, Func<TEntity, string> messageLambda)
+        {
+            var name = String.Format(Resources.FluentMinimumLengthName, Property.Name);
+            EntityRules.AddRule(x => ((string)Property.GetValue(x, null)) == null || ((string)Property.GetValue(x, null)).Length >= minimumLength, name, messageLambda);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a rule that specifies that the string property must be at least a specified length.
+        /// </summary>
+        /// <param name="minimumLength">The minimum length that the string property can be.</param>
+        /// <param name="message">The error message to use should this validation rule fail.</param>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>
+        public FluentStringRuleSet<TEntity> MinimumLength(int minimumLength, string message)
+        {
+            return MinimumLength(minimumLength, x => message);
+        }
+
+        /// <summary>
+        /// Adds a rule that specifies that the string property must be at least a specified length.
+        /// </summary>
+        /// <param name="minimumLength">The minimum length that the string property can be.</param>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>
+        public FluentStringRuleSet<TEntity> MinimumLength(int minimumLength)
+        {
+            return MinimumLength(minimumLength, String.Format(Resources.FluentMinimumLengthDefaultMessage, Property.Name, minimumLength));
+        }
+
+        /// <summary>
+        /// Adds a rule that specifies that the string property must be at least a specified length.
+        /// </summary>
+        /// <param name="maximumLength">The maximum length that the string property can be.</param>
+        /// <param name="messageLambda">A lambda or function that will determine the error message to use should this validation rule fail.</param>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>
+        public FluentStringRuleSet<TEntity> MaximumLength(int maximumLength, Func<TEntity, string> messageLambda)
+        {
+            var name = String.Format(Resources.FluentMaximumLengthName, Property.Name);
+            EntityRules.AddRule(x => ((string)Property.GetValue(x, null)) == null || ((string)Property.GetValue(x, null)).Length <= maximumLength, name, messageLambda);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a rule that specifies that the string property must be at least a specified length.
+        /// </summary>
+        /// <param name="maximumLength">The maximum length that the string property can be.</param>
+        /// <param name="message">The error message to use should this validation rule fail.</param>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>
+        public FluentStringRuleSet<TEntity> MaximumLength(int maximumLength, string message)
+        {
+            return MaximumLength(maximumLength, x => message);
+        }
+
+        /// <summary>
+        /// Adds a rule that specifies that the string property must be at least a specified length.
+        /// </summary>
+        /// <param name="maximumLength">The maximum length that the string property can be.</param>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>
+        public FluentStringRuleSet<TEntity> MaximumLength(int maximumLength)
+        {
+            return MaximumLength(maximumLength, String.Format(Resources.FluentMaximumLengthDefaultMessage, Property.Name, maximumLength));
+        }
+
+        /// <summary>
+        /// Adds a rule that specifies that the string property must match a specific regular expression pattern.
+        /// </summary>
+        /// <param name="pattern">The regular expression pattern that the property must match.</param>
+        /// <param name="messageLambda">A lambda or function that will determine the error message to use should this validation rule fail.</param>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>
+        public FluentStringRuleSet<TEntity> MatchesPattern(string pattern, Func<TEntity, string> messageLambda)
+        {
+            var name = String.Format(Resources.FluentMatchesPatternName, Property.Name);
+            EntityRules.AddRule(x => ((string)Property.GetValue(x, null)) == null || Regex.IsMatch((string)Property.GetValue(x, null), pattern), name, messageLambda);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a rule that specifies that the string property must match a specific regular expression pattern.
+        /// </summary>
+        /// <param name="pattern">The regular expression pattern that the property must match.</param>
+        /// <param name="message">The error message to use should this validation rule fail.</param>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>
+        public FluentStringRuleSet<TEntity> MatchesPattern(string pattern, string message)
+        {
+            return MatchesPattern(pattern, x => message);
+        }
+
+        /// <summary>
+        /// Adds a rule that specifies that the string property must match a specific regular expression pattern.
+        /// </summary>
+        /// <param name="pattern">The regular expression pattern that the property must match.</param>
+        /// <returns>A <see cref="FluentStringRuleSet{TEntity}"/> object that can be used to chain string rules together.</returns>
+        public FluentStringRuleSet<TEntity> MatchesPattern(string pattern)
+        {
+            return MatchesPattern(pattern, String.Format(Resources.FluentMatchesPatternDefaultMessage, Property.Name, pattern));
         }
         #endregion
     }
