@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using StaticSphere.Specifics.Fluent;
 #endregion
 
 namespace StaticSphere.Specifics
@@ -124,6 +125,18 @@ namespace StaticSphere.Specifics
             }
 
             return result;
+        }
+        #endregion
+
+        #region Fluent Api Methods
+        /// <summary>
+        /// Provides the ability to add validation rules against string properties with a fluent API.
+        /// </summary>
+        /// <param name="property">An expression that describes property being validated.</param>
+        /// <returns>A <see cref="FluentStringRulesSet{TEntity}"/> object that will add validation rules based on the fluent API methods called.</returns>
+        protected FluentStringRuleSet<TEntity> Property(Expression<Func<TEntity, string>> property)
+        {
+            return new FluentStringRuleSet<TEntity>(this, property);
         }
         #endregion
     }
