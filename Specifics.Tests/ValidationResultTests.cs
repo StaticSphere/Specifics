@@ -12,7 +12,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanCreateValidationResult()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
 
             Assert.IsNotNull(result);
         }
@@ -20,7 +20,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void NewValidationResultIsValid()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
 
             Assert.IsTrue(result.Valid);
         }
@@ -28,7 +28,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAccessErrorsCollection()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
 
             Assert.IsNotNull(result.Errors);
         }
@@ -36,7 +36,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAddErrorToValidationResult()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
             var error = new ValidationError("Error", "An error has occurred.");
 
             var count = result.AddError(error);
@@ -47,7 +47,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void AddingErrorToValidationResultAddsToErrorsCollection()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
             var error = new ValidationError("Error", "An error has occurred.");
 
             var count = result.Errors.Count();
@@ -59,7 +59,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void AddingErrorToValidationResultReturnsCorrectErrorCount()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
             var error = new ValidationError("Error", "An error has occurred.");
             var error2 = new ValidationError("Error2", "Another error has occurred.");
 
@@ -73,7 +73,7 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddErrorRequiresValidationError()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
             result.AddError(null);
         }
 
@@ -81,7 +81,7 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void AddedValidationErrorMustHaveUniqueErrors()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
             var error = new ValidationError("Error", "An error has occurred.");
 
             var count = result.AddError(error);
@@ -91,7 +91,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void ValidationResultWithoutErrorsShowsValid()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
 
             Assert.IsTrue(result.Valid);
         }
@@ -99,7 +99,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void ValidationResultWithErrorsShowsInvalid()
         {
-            var result = new ValidationResult<Person>(new Person());
+            var result = new ValidationResult<StringTestSubject>(new StringTestSubject());
             var error = new ValidationError("Test", "An error has occurred.");
 
             result.AddError(error);

@@ -9,19 +9,19 @@ namespace StaticSphere.Specifics.Tests
     public class EntityRuleSetTests
     {
         #region Helper Classes
-        private class PersonRuleSet : EntityRuleSet<Person>
+        private class StringTestSubjectRules : EntityRuleSet<StringTestSubject>
         {
-            public PersonRuleSet()
+            public StringTestSubjectRules()
             {
-                AddRule(p => !String.IsNullOrEmpty(p.FirstName), "FirstNameRequired");
+                AddRule(x => !String.IsNullOrEmpty(x.TestString1), "TestString1Required");
             }
         }
 
-        private class PersonRuleSet2 : EntityRuleSet<PersonNoInitializeValidationErrors>
+        private class StringTestSubjectRules2 : EntityRuleSet<StringTestSubjectNotInitialized>
         {
-            public PersonRuleSet2()
+            public StringTestSubjectRules2()
             {
-                AddRule(p => !String.IsNullOrEmpty(p.FirstName), "FirstNameRequired");
+                AddRule(x => !String.IsNullOrEmpty(x.TestString1), "TestString1Required");
             }
         }
         #endregion
@@ -29,8 +29,8 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAddANewValidationRule()
         {
-            var ruleSet = new PersonRuleSet();
-            var rule = new ValidationRule<Person>(p => !String.IsNullOrEmpty(p.FirstName), "Rule");
+            var ruleSet = new StringTestSubjectRules();
+            var rule = new ValidationRule<StringTestSubject>(x => !String.IsNullOrEmpty(x.TestString1), "Rule");
 
             ruleSet.AddRule(rule);
         }
@@ -38,8 +38,8 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void DoesAddingANewValidationRuleIncrementListCount()
         {
-            var ruleSet = new PersonRuleSet();
-            var rule = new ValidationRule<Person>(p => !String.IsNullOrEmpty(p.FirstName), "Rule");
+            var ruleSet = new StringTestSubjectRules();
+            var rule = new ValidationRule<StringTestSubject>(x => !String.IsNullOrEmpty(x.TestString1), "Rule");
             var count = ruleSet.ValidationRules.Count;
 
             var newCount = ruleSet.AddRule(rule);
@@ -51,7 +51,7 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddingValidationRuleRequiresRule()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
             ruleSet.AddRule(null);
         }
@@ -59,18 +59,18 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAddANewValidationRuleWithExpression()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), "Rule");
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "Rule");
         }
 
         [Test]
         public void DoesAddingANewValidationRuleWithExpressionIncrementListCount()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
             var count = ruleSet.ValidationRules.Count;
 
-            var newCount = ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), "Rule");
+            var newCount = ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "Rule");
 
             Assert.AreEqual(count + 1, newCount);
         }
@@ -79,7 +79,7 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddingValidationRuleWithExpressionRequiresRule()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
             ruleSet.AddRule(null, "Rule");
         }
@@ -88,26 +88,26 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddingValidationRuleWithExpressionRequiresName()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), null);
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), null);
         }
 
         [Test]
         public void CanAddANewValidationRuleWithExpressionAndErrorMessage()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), "Rule", "First name is required.");
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "Rule", "First name is required.");
         }
 
         [Test]
         public void DoesAddingANewValidationRuleWithExpressionAndErrorMessageIncrementListCount()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
             var count = ruleSet.ValidationRules.Count;
 
-            var newCount = ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), "Rule", "First name is required.");
+            var newCount = ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "Rule", "First name is required.");
 
             Assert.AreEqual(count + 1, newCount);
         }
@@ -116,7 +116,7 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddingValidationRuleWithExpressionAndErrorMessageRequiresRule()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
             ruleSet.AddRule(null, "Rule", "First name is required.");
         }
@@ -125,35 +125,35 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddingValidationRuleWithExpressionAndErrorMessageRequiresName()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), null, "First name is required.");
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), null, "First name is required.");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddingValidationRuleWithExpressionAndErrorMessageRequiresErrorMessage()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), "Rule", (string)null);
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "Rule", (string)null);
         }
 
         [Test]
         public void CanAddANewValidationRuleWithExpressionAndErrorMessageFunc()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), "Rule", m => "First name is required.");
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "Rule", m => "First name is required.");
         }
 
         [Test]
         public void DoesAddingANewValidationRuleWithExpressionAndErrorMessageFuncIncrementListCount()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
             var count = ruleSet.ValidationRules.Count;
 
-            var newCount = ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), "Rule", m =>"First name is required.");
+            var newCount = ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "Rule", m =>"First name is required.");
 
             Assert.AreEqual(count + 1, newCount);
         }
@@ -162,7 +162,7 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddingValidationRuleWithExpressionAndErrorMessageFuncRequiresRule()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
             ruleSet.AddRule(null, "Rule", m => "First name is required.");
         }
@@ -171,27 +171,27 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddingValidationRuleWithExpressionAndErrorMessageFuncRequiresName()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), null, m => "First name is required.");
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), null, m => "First name is required.");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddingValidationRuleWithExpressionAndErrorMessageFuncRequiresErrorMessage()
         {
-            var ruleSet = new PersonRuleSet();
+            var ruleSet = new StringTestSubjectRules();
 
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.FirstName), "Rule", (Func<Person, string>)null);
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "Rule", (Func<StringTestSubject, string>)null);
         }
 
         [Test]
         public void CanValidateEntitySpecifications()
         {
-            var ruleSet = new PersonRuleSet();
-            var person = new Person { FirstName = "Bob" };
+            var ruleSet = new StringTestSubjectRules();
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
 
-            var result = ruleSet.Validate(person);
+            var result = ruleSet.Validate(testSubject);
 
             Assert.IsNotNull(result);
         }
@@ -199,10 +199,10 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void ValidEntityValidatesBySpecificationAsValid()
         {
-            var ruleSet = new PersonRuleSet();
-            var person = new Person { FirstName = "Bob" };
+            var ruleSet = new StringTestSubjectRules();
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
 
-            var result = ruleSet.Validate(person);
+            var result = ruleSet.Validate(testSubject);
 
             Assert.IsTrue(result.Valid);
         }
@@ -210,11 +210,11 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void InvalidEntityValidatesBySpecificationAsInvalid()
         {
-            var ruleSet = new PersonRuleSet();
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
-            var person = new Person { FirstName = "Bob" };
+            var ruleSet = new StringTestSubjectRules();
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "TestString1Required.");
+            var testSubject = new StringTestSubject();
 
-            var result = ruleSet.Validate(person);
+            var result = ruleSet.Validate(testSubject);
 
             Assert.IsFalse(result.Valid);
         }
@@ -222,48 +222,48 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void ValidatedEntityCanGetErrorsReported()
         {
-            var ruleSet = new PersonRuleSet();
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
-            var person = new Person { FirstName = "Bob" };
+            var ruleSet = new StringTestSubjectRules();
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "TestString1Required.");
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
 
-            ruleSet.Validate(person);
+            ruleSet.Validate(testSubject);
 
-            Assert.IsNotNull(person.ValidationErrors);
+            Assert.IsNotNull(testSubject.ValidationErrors);
         }
 
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void DoesValidateThrowIfValidationErrorsNotInitialized()
         {
-            var ruleSet = new PersonRuleSet2();
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
-            var person = new PersonNoInitializeValidationErrors { FirstName = "Bob" };
+            var ruleSet = new StringTestSubjectRules2();
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "TestString1Required.");
+            var testSubject = new StringTestSubjectNotInitialized();
 
-            ruleSet.Validate(person);
+            ruleSet.Validate(testSubject);
         }
 
         [Test]
         public void ValidatedEntityReportsErrors()
         {
-            var ruleSet = new PersonRuleSet();
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
-            var person = new Person { FirstName = "Bob" };
+            var ruleSet = new StringTestSubjectRules();
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString2), "TestString2Required.");
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
 
-            ruleSet.Validate(person);
+            ruleSet.Validate(testSubject);
 
-            Assert.AreEqual(1, person.ValidationErrors.Count);
+            Assert.AreEqual(1, testSubject.ValidationErrors.Count);
         }
 
         [Test]
         public void ValidationResultContainsPointerToEntityThatFailedValidation()
         {
-            var ruleSet = new PersonRuleSet();
-            ruleSet.AddRule(p => !String.IsNullOrEmpty(p.LastName), "LastNameRequired.");
-            var person = new Person { FirstName = "Bob" };
+            var ruleSet = new StringTestSubjectRules();
+            ruleSet.AddRule(x => !String.IsNullOrEmpty(x.TestString1), "TestString1Required.");
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
 
-            var result = ruleSet.Validate(person);
+            var result = ruleSet.Validate(testSubject);
 
-            Assert.AreEqual(person, result.Entity);
+            Assert.AreEqual(testSubject, result.Entity);
         }
     }
 }

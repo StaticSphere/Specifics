@@ -141,6 +141,9 @@
   <data name="FluentMinimumLengthName" xml:space="preserve">
     <value>{0}_MinimumLength</value>
   </data>
+  <data name="FluentMinimumValueName" xml:space="preserve">
+    <value>{0}_MinimumValue</value>
+  </data>
   <data name="InvalidPropertyError" xml:space="preserve">
     <value>The value provided to the "property" parameter is not a property.</value>
   </data>

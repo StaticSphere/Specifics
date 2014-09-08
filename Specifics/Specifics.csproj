@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityRuleSet.cs" />
+    <Compile Include="Fluent\FluentNumberRuleSet.cs" />
     <Compile Include="Fluent\FluentRuleSet.cs" />
     <Compile Include="Fluent\FluentStringRuleSet.cs" />
     <Compile Include="IValidatedEntity.cs" />

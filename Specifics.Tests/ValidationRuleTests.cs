@@ -12,7 +12,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAValidationRuleBeCreated()
         {
-            var rule = new ValidationRule<Person>(new Specification<Person>(x => true), "Rule", "The rule must be true.");
+            var rule = new ValidationRule<StringTestSubject>(new Specification<StringTestSubject>(x => true), "Rule", "The rule must be true.");
 
             Assert.IsNotNull(rule);
         }
@@ -20,7 +20,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAValidationRuleBeCreatedViaLambda()
         {
-            var rule = new ValidationRule<Person>(p => true, "Rule", "The rule must be true.");
+            var rule = new ValidationRule<StringTestSubject>(p => true, "Rule", "The rule must be true.");
 
             Assert.IsNotNull(rule);
         }
@@ -28,7 +28,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAValidationRuleBeCreatedWithoutAMessage()
         {
-            var rule = new ValidationRule<Person>(new Specification<Person>(x => true), "Rule");
+            var rule = new ValidationRule<StringTestSubject>(new Specification<StringTestSubject>(x => true), "Rule");
 
             Assert.IsNotNull(rule);
         }
@@ -36,7 +36,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAValidationRuleBeCreatedViaLambdaWithoutAMessage()
         {
-            var rule = new ValidationRule<Person>(p => true, "Rule");
+            var rule = new ValidationRule<StringTestSubject>(p => true, "Rule");
 
             Assert.IsNotNull(rule);
         }
@@ -44,145 +44,145 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAValidationRuleBeCreatedWithMessageLambda()
         {
-            var person = new Person();
-            var rule = new ValidationRule<Person>(new Specification<Person>(x => !String.IsNullOrEmpty(x.FirstName)), "Rule", x => String.Format("Entity of type {0} first name is null.", x.GetType().Name));
-            var valid = rule.Validate(person);
+            var testSubject = new StringTestSubject();
+            var rule = new ValidationRule<StringTestSubject>(new Specification<StringTestSubject>(x => !String.IsNullOrEmpty(x.TestString1)), "Rule", x => String.Format("Entity of type {0} first name is null.", x.GetType().Name));
+            var valid = rule.Validate(testSubject);
 
-            Assert.AreEqual("Entity of type Person first name is null.", rule.ErrorMessage);
+            Assert.AreEqual("Entity of type StringTestSubject first name is null.", rule.ErrorMessage);
         }
         
         [Test]
         public void CanAValidationRuleBeCreatedViaLambdaWithMessageLambda()
         {
-            var person = new Person();
-            var rule = new ValidationRule<Person>(x => !String.IsNullOrEmpty(x.FirstName), "Rule", x => String.Format("Entity of type {0} first name is null.", x.GetType().Name));
-            var valid = rule.Validate(person);
+            var testSubject = new StringTestSubject();
+            var rule = new ValidationRule<StringTestSubject>(x => !String.IsNullOrEmpty(x.TestString1), "Rule", x => String.Format("Entity of type {0} first name is null.", x.GetType().Name));
+            var valid = rule.Validate(testSubject);
 
-            Assert.AreEqual("Entity of type Person first name is null.", rule.ErrorMessage);
+            Assert.AreEqual("Entity of type StringTestSubject first name is null.", rule.ErrorMessage);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeSpecificationStringRequiresSpecification()
         {
-            var rule = new ValidationRule<Person>((Specification<Person>)null, "Rule");
+            var rule = new ValidationRule<StringTestSubject>((Specification<StringTestSubject>)null, "Rule");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeSpecificationStringRequiresName()
         {
-            var rule = new ValidationRule<Person>(new Specification<Person>(x => true), null);
+            var rule = new ValidationRule<StringTestSubject>(new Specification<StringTestSubject>(x => true), null);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeExpressionStringRequiresExpression()
         {
-            var rule = new ValidationRule<Person>((Expression<Func<Person, bool>>)null, "Test");
+            var rule = new ValidationRule<StringTestSubject>((Expression<Func<StringTestSubject, bool>>)null, "Test");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeExpressionStringRequiresName()
         {
-            var rule = new ValidationRule<Person>(x => true, null);
+            var rule = new ValidationRule<StringTestSubject>(x => true, null);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeSpecifcationStringStringRequiresSpecification()
         {
-            var rule = new ValidationRule<Person>((Specification<Person>)null, "Rule", "Just a test");
+            var rule = new ValidationRule<StringTestSubject>((Specification<StringTestSubject>)null, "Rule", "Just a test");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeSpecifcationStringStringRequiresName()
         {
-            var rule = new ValidationRule<Person>(new Specification<Person>(x => true), null, "Just a test");
+            var rule = new ValidationRule<StringTestSubject>(new Specification<StringTestSubject>(x => true), null, "Just a test");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeSpecifcationStringStringRequiresMessage()
         {
-            var rule = new ValidationRule<Person>(new Specification<Person>(x => true), "Rule", (string)null);
+            var rule = new ValidationRule<StringTestSubject>(new Specification<StringTestSubject>(x => true), "Rule", (string)null);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeSpecificationStringFuncRequiresSpecification()
         {
-            var rule = new ValidationRule<Person>((Specification<Person>)null, "Rule", x => "Just a test");
+            var rule = new ValidationRule<StringTestSubject>((Specification<StringTestSubject>)null, "Rule", x => "Just a test");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeSpecificationStringFuncRequiresName()
         {
-            var rule = new ValidationRule<Person>(new Specification<Person>(x => true), null, x => "Just a test");
+            var rule = new ValidationRule<StringTestSubject>(new Specification<StringTestSubject>(x => true), null, x => "Just a test");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeSpecificationStringFuncRequireFunc()
         {
-            var rule = new ValidationRule<Person>(new Specification<Person>(x => true), "Test", (Func<Person, string>)null);
+            var rule = new ValidationRule<StringTestSubject>(new Specification<StringTestSubject>(x => true), "Test", (Func<StringTestSubject, string>)null);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeExpressionStringStringRequiresExpression()
         {
-            var rule = new ValidationRule<Person>((Expression<Func<Person, bool>>)null, "Rule", "Just a test");
+            var rule = new ValidationRule<StringTestSubject>((Expression<Func<StringTestSubject, bool>>)null, "Rule", "Just a test");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeExpressionStringStringRequiresName()
         {
-            var rule = new ValidationRule<Person>(x => true, null, "Just a test");
+            var rule = new ValidationRule<StringTestSubject>(x => true, null, "Just a test");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeExpressionStringStringRequiresMessage()
         {
-            var rule = new ValidationRule<Person>(x => true, "Test", (string)null);
+            var rule = new ValidationRule<StringTestSubject>(x => true, "Test", (string)null);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeExpressionStringFuncRequiresExpression()
         {
-            var rule = new ValidationRule<Person>((Expression<Func<Person, bool>>)null, "Rule", x => "Just a test");
+            var rule = new ValidationRule<StringTestSubject>((Expression<Func<StringTestSubject, bool>>)null, "Rule", x => "Just a test");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeExpressionStringFuncRequiresName()
         {
-            var rule = new ValidationRule<Person>(x => true, null, x => "Just a test");
+            var rule = new ValidationRule<StringTestSubject>(x => true, null, x => "Just a test");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingValidationRuleOfTypeExpressionStringFuncRequiresMessage()
         {
-            var rule = new ValidationRule<Person>(x => true, "Test", (Func<Person, string>)null);
+            var rule = new ValidationRule<StringTestSubject>(x => true, "Test", (Func<StringTestSubject, string>)null);
         }
 
         [Test]
         public void CanAnEntityBeValidated()
         {
-            var person = new Person { FirstName = "Bob", LastName = "Smith" };
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName));
-            spec &= new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName));
+            var testSubject = new StringTestSubject { TestString1 = "Bob", TestString2 = "Smith" };
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1));
+            spec &= new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString2));
 
-            var rule = new ValidationRule<Person>(spec, "FullNameRequired");
+            var rule = new ValidationRule<StringTestSubject>(spec, "FullNameRequired");
 
-            var result = rule.Validate(person);
+            var result = rule.Validate(testSubject);
 
             Assert.IsTrue(result);
         }
@@ -190,13 +190,13 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanAnEntityBeInvalidated()
         {
-            var person = new Person { FirstName = "Bob" };
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName));
-            spec &= new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName));
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1));
+            spec &= new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString2));
 
-            var rule = new ValidationRule<Person>(spec, "FullNameRequired");
+            var rule = new ValidationRule<StringTestSubject>(spec, "FullNameRequired");
 
-            var result = rule.Validate(person);
+            var result = rule.Validate(testSubject);
 
             Assert.IsFalse(result);
         }
@@ -204,13 +204,13 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void DoesInvalidationSetErrorMessage()
         {
-            var person = new Person { FirstName = "Bob" };
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName));
-            spec &= new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName));
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1));
+            spec &= new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString2));
 
-            var rule = new ValidationRule<Person>(spec, "FullNameRequired", "The persons full name is required");
+            var rule = new ValidationRule<StringTestSubject>(spec, "FullNameRequired", "The testSubjects full name is required");
 
-            var result = rule.Validate(person);
+            var result = rule.Validate(testSubject);
 
             Assert.IsNotNullOrEmpty(rule.ErrorMessage);
         }
@@ -218,13 +218,13 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void DoesInvalidationSetDefaultErrorMessage()
         {
-            var person = new Person { FirstName = "Bob" };
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName));
-            spec &= new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName));
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1));
+            spec &= new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString2));
 
-            var rule = new ValidationRule<Person>(spec, "FullNameRequired");
+            var rule = new ValidationRule<StringTestSubject>(spec, "FullNameRequired");
 
-            var result = rule.Validate(person);
+            var result = rule.Validate(testSubject);
 
             Assert.IsNotNullOrEmpty(rule.ErrorMessage);
         }
@@ -233,7 +233,7 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void DoesValidatingANullEntityThrowException()
         {
-            var rule = new ValidationRule<Person>(x => true, "Test");
+            var rule = new ValidationRule<StringTestSubject>(x => true, "Test");
             rule.Validate(null);
         }
     }

@@ -11,7 +11,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanASpecificationBeCreated()
         {
-            var spec = new Specification<Person>(x => true);
+            var spec = new Specification<StringTestSubject>(x => true);
 
             Assert.IsNotNull(spec);
         }
@@ -20,13 +20,13 @@ namespace StaticSphere.Specifics.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void DoesASpecificationRequireAPredicate()
         {
-            var spec = new Specification<Person>(null);
+            var spec = new Specification<StringTestSubject>(null);
         }
 
         [Test]
         public void CanASpecificationReturnItsPredicate()
         {
-            var spec = new Specification<Person>(x => true);
+            var spec = new Specification<StringTestSubject>(x => true);
             var predicate = spec.Predicate;
 
             Assert.IsNotNull(predicate);
@@ -36,7 +36,7 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanASpecificationReturnItsDelegate()
         {
-            var spec = new Specification<Person>(x => true);
+            var spec = new Specification<StringTestSubject>(x => true);
             var @delegate = spec.Delegate;
 
             Assert.IsNotNull(@delegate);
@@ -45,106 +45,106 @@ namespace StaticSphere.Specifics.Tests
         [Test]
         public void CanASpecificationDetermineSatisfaction()
         {
-            var person = new Person { FirstName = "Bob" };
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName));
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1));
 
 
-            Assert.IsTrue(spec.IsSatisfiedBy(person));
+            Assert.IsTrue(spec.IsSatisfiedBy(testSubject));
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void DoesIsSatisifedByThrowOnNullEntity()
         {
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName));
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1));
             var satisfied = spec.IsSatisfiedBy(null);
         }
 
         [Test]
         public void CanASpecificationDetermineNotSatisfied()
         {
-            var person = new Person();
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName));
+            var testSubject = new StringTestSubject();
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1));
 
-            Assert.IsFalse(spec.IsSatisfiedBy(person));
+            Assert.IsFalse(spec.IsSatisfiedBy(testSubject));
         }
 
         [Test]
         public void CanSpecificationsBeANDedTogether()
         {
-            var person = new Person { FirstName = "Bob" };
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)).And(
-                new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName)));
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1)).And(
+                new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString2)));
 
-            Assert.IsFalse(spec.IsSatisfiedBy(person));
+            Assert.IsFalse(spec.IsSatisfiedBy(testSubject));
 
-            person.LastName = "Smith";
-            Assert.IsTrue(spec.IsSatisfiedBy(person));
+            testSubject.TestString2 = "Smith";
+            Assert.IsTrue(spec.IsSatisfiedBy(testSubject));
         }
 
         [Test]
         public void CanSpecificationsBeORedTogether()
         {
-            var person = new Person();
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)).Or(
-                new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName)));
+            var testSubject = new StringTestSubject();
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1)).Or(
+                new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString2)));
 
-            Assert.IsFalse(spec.IsSatisfiedBy(person));
+            Assert.IsFalse(spec.IsSatisfiedBy(testSubject));
 
-            person.LastName = "Smith";
-            Assert.IsTrue(spec.IsSatisfiedBy(person));
+            testSubject.TestString2 = "Smith";
+            Assert.IsTrue(spec.IsSatisfiedBy(testSubject));
 
-            person.FirstName = "Bob";
-            person.LastName = null;
-            Assert.IsTrue(spec.IsSatisfiedBy(person));
+            testSubject.TestString1 = "Bob";
+            testSubject.TestString2 = null;
+            Assert.IsTrue(spec.IsSatisfiedBy(testSubject));
         }
 
         [Test]
         public void CanSpecificationBeNOTed()
         {
-            var person = new Person { FirstName = "Bob" };
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)).Not();
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1)).Not();
 
-            Assert.IsFalse(spec.IsSatisfiedBy(person));
+            Assert.IsFalse(spec.IsSatisfiedBy(testSubject));
         }
 
         [Test]
         public void CanSpecificationBeANDedByOperator()
         {
-            var person = new Person { FirstName = "Bob" };
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)) &
-                new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName));
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1)) &
+                new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString2));
 
-            Assert.IsFalse(spec.IsSatisfiedBy(person));
+            Assert.IsFalse(spec.IsSatisfiedBy(testSubject));
 
-            person.LastName = "Smith";
-            Assert.IsTrue(spec.IsSatisfiedBy(person));
+            testSubject.TestString2 = "Smith";
+            Assert.IsTrue(spec.IsSatisfiedBy(testSubject));
         }
 
         [Test]
         public void CanSpecificationBeORedByOperator()
         {
-            var person = new Person();
-            var spec = new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)) |
-                new Specification<Person>(p => !String.IsNullOrEmpty(p.LastName));
+            var testSubject = new StringTestSubject();
+            var spec = new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1)) |
+                new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString2));
 
-            Assert.IsFalse(spec.IsSatisfiedBy(person));
+            Assert.IsFalse(spec.IsSatisfiedBy(testSubject));
 
-            person.LastName = "Smith";
-            Assert.IsTrue(spec.IsSatisfiedBy(person));
+            testSubject.TestString2 = "Smith";
+            Assert.IsTrue(spec.IsSatisfiedBy(testSubject));
 
-            person.FirstName = "Bob";
-            person.LastName = null;
-            Assert.IsTrue(spec.IsSatisfiedBy(person));
+            testSubject.TestString1 = "Bob";
+            testSubject.TestString2 = null;
+            Assert.IsTrue(spec.IsSatisfiedBy(testSubject));
         }
 
         [Test]
         public void CanSpecificationBeNOTedByOperator()
         {
-            var person = new Person { FirstName = "Bob" };
-            var spec = !(new Specification<Person>(p => !String.IsNullOrEmpty(p.FirstName)));
+            var testSubject = new StringTestSubject { TestString1 = "Bob" };
+            var spec = !(new Specification<StringTestSubject>(p => !String.IsNullOrEmpty(p.TestString1)));
 
-            Assert.IsFalse(spec.IsSatisfiedBy(person));
+            Assert.IsFalse(spec.IsSatisfiedBy(testSubject));
         }
     }
 }

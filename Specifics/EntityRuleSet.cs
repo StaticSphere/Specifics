@@ -138,6 +138,26 @@ namespace StaticSphere.Specifics
         {
             return new FluentStringRuleSet<TEntity>(this, property);
         }
+
+        /// <summary>
+        /// Provides the ability to add validation rules against number properties with a fluent API.
+        /// </summary>
+        /// <param name="property">An expression that describes property being validated.</param>
+        /// <returns>A <see cref="FluentNumberRuleSet{TEntity}"/> object that will add validation rules based on the fluent API methods called.</returns>
+        protected FluentNumberRuleSet<TEntity> Property(Expression<Func<TEntity, decimal>> property)
+        {
+            return new FluentNumberRuleSet<TEntity>(this, property);
+        }
+
+        /// <summary>
+        /// Provides the ability to add validation rules against number properties with a fluent API.
+        /// </summary>
+        /// <param name="property">An expression that describes property being validated.</param>
+        /// <returns>A <see cref="FluentNumberRuleSet{TEntity}"/> object that will add validation rules based on the fluent API methods called.</returns>
+        protected FluentNumberRuleSet<TEntity> Property(Expression<Func<TEntity, decimal?>> property)
+        {
+            return new FluentNumberRuleSet<TEntity>(this, property);
+        }
         #endregion
     }
 }

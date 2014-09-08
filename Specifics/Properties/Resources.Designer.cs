@@ -133,6 +133,15 @@ namespace StaticSphere.Specifics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}_MinimumValue.
+        /// </summary>
+        internal static string FluentMinimumValueName {
+            get {
+                return ResourceManager.GetString("FluentMinimumValueName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value provided to the &quot;property&quot; parameter is not a property..
         /// </summary>
         internal static string InvalidPropertyError {
